@@ -13,7 +13,7 @@ class UserModel{
     };
   }
 
-  UserModel? fromJson(Map<String,dynamic> json){
+  factory UserModel.fromJson(Map<String,dynamic> json){
     return UserModel(
         id: json['id'],
         email: json['email']
