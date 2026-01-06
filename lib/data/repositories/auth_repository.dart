@@ -4,11 +4,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthRepository extends GetxController{
   static AuthRepository get instance => Get.find();
 
-  final _supaBase = Supabase.instance.client;
+  final client ;
+  AuthRepository({this.client});
 
   Future<AuthResponse> signInWithEmail(String email,String password)async{
     try{
-      final res = await _supaBase.auth.signInWithPassword(email : email , password: password,);
+      final res = await client.auth.signInWithPassword(email : email , password: password,);
       return res;
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
@@ -17,7 +18,7 @@ class AuthRepository extends GetxController{
 
   Future<void> signOut()async{
     try{
-      await _supaBase.auth.signOut();
+      await client.auth.signOut();
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
     }
