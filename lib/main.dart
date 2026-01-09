@@ -1,18 +1,26 @@
-import 'package:employee_data_management/bindings/app_bindings.dart';
+import 'package:employee_data_management/core/config/app_config.dart';
+import 'package:employee_data_management/core/utils/theme/themes.dart';
+import 'package:employee_data_management/features/auth%20/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'data/repositories/auth_repository.dart';
+import 'package:window_manager/window_manager.dart';
+import 'core/bindings/app_bindings.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+  WindowOptions windowOptions = const WindowOptions(
+    windowButtonVisibility: true,
+  );
 
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+    await windowManager.maximize();
+  });
   await Supabase.initialize(
-    url: 'https://ntwgqrlvbsrlcetangbf.supabase.co',
-    anonKey: 'sb_publishable_NNmt0Ty-1FjDR9-KEsM1zg_-0P1l_05',
+    url: AppConfig.SUPABASE_URL,
+    anonKey: AppConfig.SUPABASE_ANON_KEY,
   );
   runApp(const MyApp());
 }
@@ -24,8 +32,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: KAppThemes.lightTheme,
+      debugShowCheckedModeBanner: false,
       initialBinding: AppBindings(),
-      home: Scaffold(),
+      home: const LoginScreen(),
     );
   }
 }

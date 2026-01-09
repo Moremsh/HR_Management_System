@@ -1,15 +1,15 @@
 class SalaryModel{
-  final String employeeId ;
-  final double housingAllowance, transportAllowance, baseSalary;
+  final int housingAllowance, transportAllowance, baseSalary;
 
   SalaryModel({
-    required this.employeeId,
     required this.housingAllowance,
     required this.transportAllowance,
     required this.baseSalary,
 });
 
-  double totalSalary(){return housingAllowance + transportAllowance + baseSalary;}
+  static SalaryModel get empty => SalaryModel(housingAllowance: 0, transportAllowance: 0, baseSalary: 0);
+
+  int get totalSalary => housingAllowance + transportAllowance + baseSalary;
 
   Map<String,dynamic> toJson(SalaryModel salary){
     return{
@@ -21,7 +21,6 @@ class SalaryModel{
 
   factory SalaryModel.fromJson(Map<String,dynamic> json){
     return SalaryModel(
-        employeeId: json['employeeId'],
         housingAllowance: json['housingAllowance'],
         transportAllowance: json['transportAllowance'],
         baseSalary: json['baseSalary']

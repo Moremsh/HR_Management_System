@@ -1,17 +1,16 @@
 class MounthlyExcussesModel {
-  final String employeeId ;
   final int lateDay , exitDay , errandDay ;
 
   MounthlyExcussesModel({
-    required this.employeeId,
     required this.lateDay,
     required this.exitDay,
     required this.errandDay,
   });
 
+  static MounthlyExcussesModel get empty => MounthlyExcussesModel(errandDay: 0, exitDay: 0, lateDay: 0);
+
   Map<String,dynamic> toJson(MounthlyExcussesModel mounthlyExcusses){
     return{
-      'employeeId' : mounthlyExcusses.employeeId,
       'lateDay' : mounthlyExcusses.lateDay,
       'exitDay' : mounthlyExcusses.exitDay,
       'errandDay' : mounthlyExcusses.errandDay,
@@ -20,7 +19,6 @@ class MounthlyExcussesModel {
 
   factory MounthlyExcussesModel.fromJson(Map<String,dynamic> json){
     return MounthlyExcussesModel(
-        employeeId: json['employeeId'],
         lateDay: json['lateDay'],
         exitDay: json['exitDay'],
         errandDay: json['errandDay']

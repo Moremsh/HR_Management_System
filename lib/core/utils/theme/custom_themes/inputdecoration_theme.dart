@@ -4,6 +4,8 @@ class KInputDecorationTheme {
   KInputDecorationTheme._();
 
   static InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
+    isDense: true,
+    contentPadding: EdgeInsets.symmetric(horizontal: 20),
     errorMaxLines: 3 ,
     prefixIconColor: Colors.grey ,
     suffixIconColor: Colors.grey ,

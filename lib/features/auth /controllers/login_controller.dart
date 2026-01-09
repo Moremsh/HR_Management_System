@@ -2,6 +2,8 @@ import 'package:employee_data_management/data/repositories/auth_repository.dart'
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../employee/screens/home_screen.dart';
+
 class LoginController extends GetxController{
   static LoginController get instance => Get.find();
 
@@ -14,7 +16,12 @@ class LoginController extends GetxController{
   Future<void> signInWithEmailAndPassword()async{
     try{
       if(!formKey.currentState!.validate()) return ;
-      await AuthRepository.instance.signInWithEmail(email.text, password.text);
+
+      final res = await AuthRepository.instance.signInWithEmail(email.text, password.text);
+
+      if(res.user != null){
+        Get.offAll(()=> HomeScreen());
+      }
     }catch(error){
       throw "Something went wrong ${error.toString()}";
     }
