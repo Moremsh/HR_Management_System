@@ -1,5 +1,6 @@
 import 'package:employee_data_management/data/repositories/employee_repository.dart';
 import 'package:employee_data_management/features/employee/models/employee_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 class EmployeeController extends GetxController{
   static EmployeeController get instance => Get.find();
@@ -7,14 +8,92 @@ class EmployeeController extends GetxController{
   final EmployeeRepository repository ;
   EmployeeController({required this.repository});
 
-  RxList<EmployeeModel> _employees = <EmployeeModel>[].obs;
-  final RxBool _isLoading = false.obs;
+  final name = TextEditingController();
+  final phoneNo = TextEditingController();
+  final address = TextEditingController();
+  final dateOfBirth = TextEditingController();
+  final jobTitle = TextEditingController();
+  final dateOfCommencement = TextEditingController();
+  final graduationDate = TextEditingController();
+  final location = TextEditingController();
+  final annualDays = TextEditingController();
+  final sickDays = TextEditingController();
+  final casualDays = TextEditingController();
+  final deductDays = TextEditingController();
+  final lateDays = TextEditingController();
+  final exitDays = TextEditingController();
+  final errandDays = TextEditingController();
+  final housingAllowance = TextEditingController();
+  final transportationAllowance = TextEditingController();
+  final baseSalary = TextEditingController();
+  final totalSalary = TextEditingController();
+  final dataFormKey = GlobalKey<FormState>();
+
+  /// Employee Variables
+  Rx<EmployeeModel?> currentEmployee = Rx<EmployeeModel?>(EmployeeModel.empty);
+  RxList<EmployeeModel> employees = <EmployeeModel>[].obs;
+  final RxBool isLoading = false.obs;
+
+  /// Image Variables
+  final RxBool isImageUploading = false.obs;
+
+
+
+  @override
+  void onInit() {
+    loadEmployees();
+    super.onInit();
+  }
+
+  void fillFields(EmployeeModel employee){
+    name.text = employee.fullName;
+    phoneNo.text = employee.phoneNo;
+    address.text = employee.address;
+    dateOfBirth.text = employee.dateOfBirth;
+    jobTitle.text = employee.jobTitle;
+    dateOfCommencement.text = employee.startDate;
+    graduationDate.text = employee.graduationDate;
+    location.text = employee.location;
+    annualDays.text = employee.vacation.annualDay.toString();
+    sickDays.text = employee.vacation.sickDay.toString();
+    casualDays.text = employee.vacation.casualDay.toString();
+    deductDays.text = employee.vacation.deductDay.toString();
+    lateDays.text = employee.monthlyExcusses.lateDay.toString();
+    exitDays.text = employee.monthlyExcusses.exitDay.toString();
+    errandDays.text = employee.monthlyExcusses.errandDay.toString();
+    housingAllowance.text = employee.salary.housingAllowance.toString();
+    transportationAllowance.text = employee.salary.transportAllowance.toString();
+    baseSalary.text = employee.salary.baseSalary.toString();
+    totalSalary.text = employee.salary.totalSalary.toString();
+  }
+
+  Future<void> pickAndUploadEmployeeImage(String employeeId) async {
+    try {
+
+      final imageUrl = await repository.pickAndUploadEmployeeImage(employeeId);
+      if (imageUrl == null) return;
+
+      await repository.updateSingleValue({"image": imageUrl}, employeeId);
+
+    } catch (e) {
+      Get.snackbar(
+        'Image Upload Failed',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+
 
   Future<void> loadEmployees()async{
     try{
-      _isLoading.value = true ;
-      _employees.value = await repository.getEmployees();
-      _isLoading.value = false ;
+      employees.value = [];
+      isLoading.value = true ;
+      employees.value = await repository.getEmployees();
+      isLoading.value = false ;
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
     }
