@@ -1,7 +1,10 @@
 import 'package:employee_data_management/data/repositories/employee_repository.dart';
 import 'package:employee_data_management/features/employee/models/employee_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../core/utils/popups/snackbars.dart';
 class EmployeeController extends GetxController{
   static EmployeeController get instance => Get.find();
 
@@ -36,6 +39,8 @@ class EmployeeController extends GetxController{
 
   /// Image Variables
   final RxBool isImageUploading = false.obs;
+  SnackBars snackBars = SnackBars();
+
 
 
 
@@ -43,6 +48,33 @@ class EmployeeController extends GetxController{
   void onInit() {
     loadEmployees();
     super.onInit();
+  }
+
+  int parseIntSafe(String? value) {
+    if (value == null) return 0;
+    return int.tryParse(value.trim()) ?? 0;
+  }
+
+  void clearFields() {
+    name.clear();
+    phoneNo.clear();
+    address.clear();
+    dateOfBirth.clear();
+    jobTitle.clear();
+    dateOfCommencement.clear();
+    graduationDate.clear();
+    location.clear();
+    annualDays.clear();
+    sickDays.clear();
+    casualDays.clear();
+    deductDays.clear();
+    lateDays.clear();
+    exitDays.clear();
+    errandDays.clear();
+    housingAllowance.clear();
+    transportationAllowance.clear();
+    baseSalary.clear();
+    totalSalary.clear();
   }
 
   void fillFields(EmployeeModel employee){
@@ -67,20 +99,17 @@ class EmployeeController extends GetxController{
     totalSalary.text = employee.salary.totalSalary.toString();
   }
 
-  Future<void> pickAndUploadEmployeeImage(String employeeId) async {
+  Future<void> pickAndUploadEmployeeImage(String? employeeId) async {
     try {
 
-      final imageUrl = await repository.pickAndUploadEmployeeImage(employeeId);
+      final imageUrl = await repository.pickAndUploadEmployeeImage(employeeId!);
       if (imageUrl == null) return;
 
       await repository.updateSingleValue({"image": imageUrl}, employeeId);
+      snackBars.successSnack('Image uploaded successfully', 'Success');
 
     } catch (e) {
-      Get.snackbar(
-        'Image Upload Failed',
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      snackBars.errorSnack('Image upload failed: ${e.toString()}', 'Error');
     } finally {
       isLoading.value = false;
     }
@@ -99,19 +128,42 @@ class EmployeeController extends GetxController{
     }
   }
 
-  Future<void> addEmployee(EmployeeModel employee)async{
-    try{
+  Future<void> addEmployee(EmployeeModel employee) async {
+    try {
+      print("this is inside Employee fullName : ${employee.fullName}");
+      if (!dataFormKey.currentState!.validate()) return;
+
+      final exists = await repository.employeeExists(employee.fullName);
+
+      if (exists) {
+        snackBars.warningSnack('Employee ${employee.fullName} already exists ', 'Duplicate');
+        return;
+      }
+
       await repository.addEmployee(employee);
-    }catch(error){
-      throw "Something went Wrong ${error.toString()}";
+
+      Get.snackbar(
+        padding: EdgeInsets.all(10),
+        'Success',
+        'Employee added successfully',
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+
+      await loadEmployees();
+    } catch (e) {
+
     }
   }
 
   Future<void> deleteEmployee(String id)async{
     try{
       await repository.deleteEmployee(id);
+      clearFields();
+      await loadEmployees();
+      snackBars.successSnack('Employee Deleted Successfully ','Success');
     }catch(error){
-      throw "Something went Wrong ${error.toString()}";
+      snackBars.errorSnack('Something went Wrong ${error.toString()}','Error');
     }
   }
 

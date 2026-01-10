@@ -2,7 +2,8 @@ import 'package:employee_data_management/features/employee/models/mounthly_excus
 import 'package:employee_data_management/features/employee/models/salary_model.dart';
 import 'package:employee_data_management/features/employee/models/vacation_model.dart';
 class EmployeeModel {
-  final String id ,fullName , phoneNo , image ,address , jobTitle , location ;
+  final String? id ;
+  final String fullName , phoneNo , image ,address , jobTitle , location ;
   final String dateOfBirth , startDate , graduationDate;
   final SalaryModel salary ;
   final VacationModel vacation ;
@@ -10,7 +11,7 @@ class EmployeeModel {
 
 
   EmployeeModel({
-    required this.id,
+    this.id,
     required this.fullName,
     required this.phoneNo,
     required this.image,
@@ -25,11 +26,10 @@ class EmployeeModel {
     required this.monthlyExcusses,
   });
   
-  static EmployeeModel get empty => EmployeeModel(id: '',image: '',fullName: '',phoneNo: '',address: '',jobTitle: '',location: '',dateOfBirth: '',startDate: '',graduationDate: '',salary: SalaryModel(housingAllowance: 0, transportAllowance: 0, baseSalary: 0), vacation: VacationModel.empty, monthlyExcusses: MounthlyExcussesModel.empty,);
+  static EmployeeModel get empty => EmployeeModel(id: '',image: '',fullName: '',phoneNo: '',address: '',jobTitle: '',location: '',dateOfBirth: '',startDate: '',graduationDate: '',salary: SalaryModel.empty, vacation: VacationModel.empty, monthlyExcusses: MounthlyExcussesModel.empty,);
   
   Map<String,dynamic> toJson(){
     return{
-      'id' : id,
       'fullName' : fullName,
       'phoneNo' : phoneNo,
       'image' : image,

@@ -1,7 +1,12 @@
 import 'package:employee_data_management/core/common/widgets/horizontal_card.dart';
 import 'package:employee_data_management/core/utils/devices/device_utils.dart';
+import 'package:employee_data_management/core/utils/validators/validator.dart';
 import 'package:employee_data_management/data/repositories/auth_repository.dart';
 import 'package:employee_data_management/data/repositories/employee_repository.dart';
+import 'package:employee_data_management/features/employee/models/employee_model.dart';
+import 'package:employee_data_management/features/employee/models/mounthly_excusses_model.dart';
+import 'package:employee_data_management/features/employee/models/salary_model.dart';
+import 'package:employee_data_management/features/employee/models/vacation_model.dart';
 import 'package:employee_data_management/features/employee/screens/widgets/crud_btns.dart';
 import 'package:employee_data_management/features/employee/screens/widgets/search_bar.dart';
 import 'package:employee_data_management/features/employee/screens/widgets/text_with_field.dart';
@@ -112,7 +117,9 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             /// CRUD Button
-                            CrudButtons(),
+                            CrudButtons(
+                              controller: controller,
+                            ),
 
                             /// Upper Form
                             Row(
@@ -211,11 +218,13 @@ class BottomFormWidget extends StatelessWidget {
               child: TextWithField(
                 text: 'Annual Days',
                 controller: controller.annualDays,
+                validator: (value)=> KValidator.validateEmptyText('Annual Days', value)
               ),
             ),
             const SizedBox(width: 20),
             Expanded(
               child: TextWithField(
+                validator: (value)=> KValidator.validateEmptyText('Sick Days', value),
                 text: 'Sick Days',
                 controller: controller.sickDays,
               ),
@@ -223,6 +232,7 @@ class BottomFormWidget extends StatelessWidget {
             const SizedBox(width: 20),
             Expanded(
               child: TextWithField(
+                validator: (value)=> KValidator.validateEmptyText('Casual Days', value),
                 text: 'Casual Days',
                 controller: controller.casualDays,
               ),
@@ -230,6 +240,7 @@ class BottomFormWidget extends StatelessWidget {
             const SizedBox(width: 20),
             Expanded(
               child: TextWithField(
+                validator: (value)=> KValidator.validateEmptyText('Deduct Days', value),
                 text: 'Deduct Days',
                 controller: controller.deductDays,
               ),
@@ -251,6 +262,7 @@ class BottomFormWidget extends StatelessWidget {
           children: [
             Expanded(
               child: TextWithField(
+                validator: (value)=> KValidator.validateEmptyText('Housing Allowance', value),
                 text: 'Housing Allowance',
                 controller: controller.housingAllowance,
               ),
@@ -259,6 +271,7 @@ class BottomFormWidget extends StatelessWidget {
             Expanded(
               child: TextWithField(
                 text: 'Transportation Allowance',
+                validator: (value)=> KValidator.validateEmptyText('Transportation Allowance', value),
                 controller:
                     controller.transportationAllowance,
               ),
@@ -267,12 +280,14 @@ class BottomFormWidget extends StatelessWidget {
             Expanded(
               child: TextWithField(
                 text: 'Base Salary',
+                validator: (value)=> KValidator.validateEmptyText('Base Salary', value),
                 controller: controller.baseSalary,
               ),
             ),
             const SizedBox(width: 20),
             Expanded(
               child: TextWithField(
+                validator: (value){},
                 text: 'Total Salary',
                 controller: controller.totalSalary,
               ),
@@ -294,6 +309,7 @@ class BottomFormWidget extends StatelessWidget {
             /// Errand Days
             Expanded(
               child: TextWithField(
+                validator: (value)=> KValidator.validateEmptyText('Errand Days', value),
                 text: 'Errand Days',
                 controller: controller.errandDays,
               ),
@@ -303,6 +319,7 @@ class BottomFormWidget extends StatelessWidget {
             /// Exit Days
             Expanded(
               child: TextWithField(
+                validator: (value)=> KValidator.validateEmptyText('Exit Days', value),
                 text: 'Exit Days',
                 controller: controller.exitDays,
               ),
@@ -312,6 +329,7 @@ class BottomFormWidget extends StatelessWidget {
             /// Late Days
             Expanded(
               child: TextWithField(
+                validator: (value)=> KValidator.validateEmptyText('Late Days', value),
                 text: 'Late Days',
                 controller: controller.lateDays,
               ),

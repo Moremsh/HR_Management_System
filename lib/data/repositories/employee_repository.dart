@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/employee/models/employee_model.dart';
 
@@ -71,9 +69,20 @@ class EmployeeRepository extends GetxController{
     }
   }
 
+  Future<bool> employeeExists(String fullName) async {
+    final res = await client
+        .from('employees')
+        .select()
+        .eq('fullName', fullName.trim())
+        .maybeSingle();
+    print("this is res ${res.toString()}");
+    return res != null ;
+  }
+
   Future<void> addEmployee(EmployeeModel employee)async{
     try{
       await client.from('employees').insert(employee.toJson());
+
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
     }
@@ -81,7 +90,7 @@ class EmployeeRepository extends GetxController{
 
   Future<void> updateEmployee(EmployeeModel employee)async{
     try{
-      await client.from('employees').update(employee.toJson()).eq('id', employee.id);
+      await client.from('employees').update(employee.toJson()).eq('id', employee.id!);
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
     }
