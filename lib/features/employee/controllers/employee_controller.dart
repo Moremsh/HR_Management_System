@@ -36,6 +36,8 @@ class EmployeeController extends GetxController{
   Rx<EmployeeModel?> currentEmployee = Rx<EmployeeModel?>(EmployeeModel.empty);
   RxList<EmployeeModel> employees = <EmployeeModel>[].obs;
   final RxBool isLoading = false.obs;
+  final RxBool enableFields = true.obs;
+
 
   /// Image Variables
   final RxBool isImageUploading = false.obs;
@@ -50,10 +52,13 @@ class EmployeeController extends GetxController{
     super.onInit();
   }
 
+
+
   int parseIntSafe(String? value) {
     if (value == null) return 0;
     return int.tryParse(value.trim()) ?? 0;
   }
+
 
   void clearFields() {
     name.clear();
@@ -75,7 +80,9 @@ class EmployeeController extends GetxController{
     transportationAllowance.clear();
     baseSalary.clear();
     totalSalary.clear();
+    currentEmployee.value = EmployeeModel.empty;
   }
+
 
   void fillFields(EmployeeModel employee){
     name.text = employee.fullName;
