@@ -1,3 +1,4 @@
+import 'package:employee_data_management/core/utils/devices/device_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ class SnackBars{
       message,
       backgroundColor: Colors.green,
       colorText: Colors.white70,
+      snackPosition: SnackPosition.BOTTOM,
+
     );
   }
 
@@ -20,6 +23,8 @@ class SnackBars{
       message,
       backgroundColor: Colors.red,
       colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      maxWidth: 500
     );
   }
 
@@ -29,6 +34,8 @@ class SnackBars{
       message,
       backgroundColor: Colors.orange,
       colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      maxWidth:600
     );
   }
 }
