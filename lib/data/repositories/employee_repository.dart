@@ -21,6 +21,16 @@ class EmployeeRepository extends GetxController{
     }
   }
 
+  Future<void> deleteEmployeeImage(String id) async {
+    try {
+      await client.storage
+          .from('employee_images')
+          .remove(["profiles/$id"]);
+    } catch (e) {
+      throw 'Failed to delete image: $e';
+    }
+  }
+
   Future<String?> pickAndUploadEmployeeImage(String employeeId) async {
     try {
       final ImagePicker picker = ImagePicker();
@@ -35,7 +45,7 @@ class EmployeeRepository extends GetxController{
 
       final File imageFile = File(pickedFile.path);
       /// FilePath of the image to Database
-      final filePath = 'profiles/$employeeId${imageFile.path}';
+      final filePath = 'profiles/$employeeId';
 
 
       await client.storage
