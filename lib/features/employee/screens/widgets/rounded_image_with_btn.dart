@@ -18,12 +18,12 @@ class RoundedImageWithBtn extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-                color: Colors.grey,
+                color: Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(20)
             ),
             height: 250,
             width: 250,
-            child: Image(image: image,fit: BoxFit.cover,),
+            child: Image(image: image,fit: BoxFit.contain,),
           ),
         ),
         const SizedBox(height: 18,),

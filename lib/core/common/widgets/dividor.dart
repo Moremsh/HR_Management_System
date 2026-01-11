@@ -7,7 +7,7 @@ class KDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0,bottom: 10),
+      padding: const EdgeInsets.only(top: 32,bottom: 32),
       child: Divider(height: 1,),
     );
   }

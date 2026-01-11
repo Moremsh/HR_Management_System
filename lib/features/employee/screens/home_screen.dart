@@ -34,14 +34,14 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => AuthRepository.instance.signOut(),
-            icon: Icon(Iconsax.logout_14, color: Colors.white),
+            icon: Icon(Iconsax.logout_14, color: Color(0XFFFDFFF0)),
           ),
         ],
         backgroundColor: Color(0XFF1C4D8D),
         title: const Text(
           'AGR INTERNATIONAL',
           style: TextStyle(
-            color: Colors.white,
+            color: Color(0XFFFDFFF0),
             fontSize: 20,
             fontWeight: FontWeight.w800,
           ),
@@ -49,296 +49,167 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Align(
-          alignment: AlignmentGeometry.center,
-          child: Row(
-            children: [
-              /// Search section
-              Container(
-                height: KDeviceUtils.getScreenHeight(context) - 150,
-                width: KDeviceUtils.getScreenWidth(context) / 5,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      /// Search bar
-                      SearchField(),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 25),
+        child: Row(
+          children: [
+            /// Search section
+            Container(
+              height: KDeviceUtils.getScreenHeight(context) ,
+              width: KDeviceUtils.getScreenWidth(context) / 5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white.withOpacity(0.6)
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    /// Search bar
+                    SearchField(controller: controller),
 
-                      /// Employee Card
-                      Obx(
-                        () => ListView.builder(
-                          itemCount: controller.employees.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => GestureDetector(
-                            onTap: () {
-                              controller.currentEmployee.value =
-                                  controller.employees[index];
-                              controller.fillFields(
-                                controller.currentEmployee.value!,
-                              );
-                            },
-                            child: HorizontalCardContainer(
-                              employee: controller.employees[index],
-                            ),
+                    /// Employee Card
+                    Obx(
+                      () => ListView.builder(
+                        itemCount: controller.employees.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            controller.isEditing.value = false ;
+                            controller.enableFields.value = false ;
+                            controller.currentEmployee.value = controller.employees[index];
+                            controller.fillFields(
+                              controller.currentEmployee.value!,
+                            );
+                          },
+                          child: HorizontalCardContainer(
+                            controller: controller,
+                            employee: controller.employees[index],
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 25),
+            ),
+            const SizedBox(width: 25),
 
-              /// Data section
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                  ),
-                  width: KDeviceUtils.getScreenWidth(context) - 150,
-                  height: KDeviceUtils.getScreenHeight(context) - 150,
-                  child: Form(
-                    key: controller.dataFormKey,
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 20.0,
-                          left: 20,
-                          top: 60,
-                          bottom: 10,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            /// CRUD Button
-                            CrudButtons(
-                              controller: controller,
-                            ),
+            /// Data section
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white.withOpacity(0.6),
+                ),
+                width: KDeviceUtils.getScreenWidth(context) ,
+                height: KDeviceUtils.getScreenHeight(context),
+                child: Form(
+                  key: controller.dataFormKey,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        right: 20.0,
+                        left: 20,
+                        bottom: 10,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          /// CRUD Button
+                          CrudButtons(
+                            controller: controller,
+                          ),
 
-                            /// Upper Form
-                            Row(
-                              children: [
-                                Column(
+                          /// Upper Form
+                          Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Obx(
+                                    () => RoundedImageWithBtn(
+                                      image:
+                                          controller
+                                                  .currentEmployee
+                                                  .value!
+                                                  .image !=
+                                              ''
+                                          ? NetworkImage("${controller.currentEmployee.value!.image}?t=${DateTime.now().millisecondsSinceEpoch}",)
+                                          : const AssetImage(
+                                              'assets/default.jpeg',
+                                            ),
+                                      btnText: 'Upload Image',
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 250,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        controller.currentEmployee.value!.image = "${controller.pickAndUploadEmployeeImage(controller.currentEmployee.value!.id,)}?t=${DateTime.now().millisecondsSinceEpoch}";
+                                      },
+                                      child: Text('Upload Image'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: UpperFormWidget(
+                                  controller: controller,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 32),
+
+                          /// Down Form
+                          BottomFormWidget(controller: controller),
+                          const SizedBox(height: 10),
+
+                          /// Editing Buttons
+                          Obx(
+                            ()=> controller.isEditing.value ? Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: SizedBox(
+                                width: KDeviceUtils.getScreenWidth(context)/5,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Obx(
-                                      () => RoundedImageWithBtn(
-                                        image:
-                                            controller
-                                                    .currentEmployee
-                                                    .value!
-                                                    .image !=
-                                                ''
-                                            ? NetworkImage(
-                                                controller
-                                                    .currentEmployee
-                                                    .value!
-                                                    .image,
-                                              )
-                                            : const AssetImage(
-                                                'assets/default.jpeg',
-                                              ),
-                                        btnText: 'Upload Image',
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 250,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          controller.pickAndUploadEmployeeImage(
-                                            controller
-                                                .currentEmployee
-                                                .value!
-                                                .id,
-                                          );
-                                        },
-                                        child: Text('Upload Image'),
-                                      ),
-                                    ),
+
+                                    /// Discard Button
+                                    Expanded(child: ElevatedButton(
+                                onPressed: ()async{
+                                  controller.updateCurrentEmployee(controller.currentEmployee.value!);
+                                  controller.updateEmployee(controller.currentEmployee.value!);
+                                  controller.isEditing.value = false ;
+                                  controller.enableFields.value = false ;
+                                  controller.clearFields();
+                                }, child: Text("Confirm"))),
+                                    const SizedBox(width: 10,),
+
+                                    /// Discard Button
+                                    Expanded( child: ElevatedButton(onPressed: () async{
+                                      await controller.loadEmployees();
+                                      controller.clearFields();
+                                      controller.isEditing.value = false ;
+                                      controller.enableFields.value = false ;
+                                    }
+                                   ,child: Text("Discard"))),
                                   ],
                                 ),
-                                Expanded(
-                                  child: UpperFormWidget(
-                                    controller: controller,
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            const SizedBox(height: 32),
-
-                            /// Down Form
-                            BottomFormWidget(controller: controller),
-                          ],
-                        ),
+                              ),
+                            ) : const SizedBox(),
+                          )
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
-class BottomFormWidget extends StatelessWidget {
-  const BottomFormWidget({
-    super.key,
-    required this.controller,
-  });
-
-  final EmployeeController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Vacation Details",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-          ),
-        ),
-        const SizedBox(height: 15),
-
-        /// Vacation Details
-        Row(
-          children: [
-            Expanded(
-              child: TextWithField(
-                text: 'Annual Days',
-                controller: controller.annualDays,
-                validator: (value)=> KValidator.validateEmptyText('Annual Days', value)
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: TextWithField(
-                validator: (value)=> KValidator.validateEmptyText('Sick Days', value),
-                text: 'Sick Days',
-                controller: controller.sickDays,
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: TextWithField(
-                validator: (value)=> KValidator.validateEmptyText('Casual Days', value),
-                text: 'Casual Days',
-                controller: controller.casualDays,
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: TextWithField(
-                validator: (value)=> KValidator.validateEmptyText('Deduct Days', value),
-                text: 'Deduct Days',
-                controller: controller.deductDays,
-              ),
-            ),
-          ],
-        ),
-        KDivider(),
-
-        /// Salary Details
-        Text(
-          "Salary Details",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-          ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            Expanded(
-              child: TextWithField(
-                validator: (value)=> KValidator.validateEmptyText('Housing Allowance', value),
-                text: 'Housing Allowance',
-                controller: controller.housingAllowance,
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: TextWithField(
-                text: 'Transportation Allowance',
-                validator: (value)=> KValidator.validateEmptyText('Transportation Allowance', value),
-                controller:
-                    controller.transportationAllowance,
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: TextWithField(
-                text: 'Base Salary',
-                validator: (value)=> KValidator.validateEmptyText('Base Salary', value),
-                controller: controller.baseSalary,
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: TextWithField(
-                validator: (value){},
-                text: 'Total Salary',
-                controller: controller.totalSalary,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        KDivider(),
-        Text(
-          "Excuses Details",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-          ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            /// Errand Days
-            Expanded(
-              child: TextWithField(
-                validator: (value)=> KValidator.validateEmptyText('Errand Days', value),
-                text: 'Errand Days',
-                controller: controller.errandDays,
-              ),
-            ),
-            const SizedBox(width: 20),
-
-            /// Exit Days
-            Expanded(
-              child: TextWithField(
-                validator: (value)=> KValidator.validateEmptyText('Exit Days', value),
-                text: 'Exit Days',
-                controller: controller.exitDays,
-              ),
-            ),
-            const SizedBox(width: 20),
-
-            /// Late Days
-            Expanded(
-              child: TextWithField(
-                validator: (value)=> KValidator.validateEmptyText('Late Days', value),
-                text: 'Late Days',
-                controller: controller.lateDays,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 80),
-      ],
-    );
-  }
-}
-

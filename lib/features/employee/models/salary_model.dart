@@ -1,5 +1,5 @@
 class SalaryModel{
-  final int housingAllowance, transportAllowance, baseSalary;
+  int housingAllowance, transportAllowance, baseSalary;
 
   SalaryModel({
     required this.housingAllowance,

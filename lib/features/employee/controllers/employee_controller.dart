@@ -1,5 +1,6 @@
 import 'package:employee_data_management/data/repositories/employee_repository.dart';
 import 'package:employee_data_management/features/employee/models/employee_model.dart';
+import 'package:employee_data_management/features/employee/models/salary_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,14 +35,21 @@ class EmployeeController extends GetxController{
 
   /// Employee Variables
   Rx<EmployeeModel?> currentEmployee = Rx<EmployeeModel?>(EmployeeModel.empty);
+  List<EmployeeModel> _allEmployees = [];
   RxList<EmployeeModel> employees = <EmployeeModel>[].obs;
   final RxBool isLoading = false.obs;
+  final RxBool isEditing = false.obs;
   final RxBool enableFields = true.obs;
+
 
 
   /// Image Variables
   final RxBool isImageUploading = false.obs;
   SnackBars snackBars = SnackBars();
+
+  /// Search variables
+  final searchController = TextEditingController();
+  final RxString searchQuery = ''.obs;
 
 
 
@@ -81,7 +89,13 @@ class EmployeeController extends GetxController{
     baseSalary.clear();
     totalSalary.clear();
     currentEmployee.value = EmployeeModel.empty;
+    searchController.clear();
+    searchEmployees('');
+    enableFields.value = true ;
+    isEditing.value = false ;
+    print("Current id is : ${currentEmployee.value!.id}");
   }
+
 
 
   void fillFields(EmployeeModel employee){
@@ -110,11 +124,11 @@ class EmployeeController extends GetxController{
     try {
 
       final imageUrl = await repository.pickAndUploadEmployeeImage(employeeId!);
-      if (imageUrl == null) return;
-
+      if (imageUrl == null) return ;
       await repository.updateSingleValue({"image": imageUrl}, employeeId);
-      snackBars.successSnack('Image uploaded successfully', 'Success');
 
+      snackBars.successSnack('Image uploaded successfully', 'Success');
+      await loadEmployees();
     } catch (e) {
       snackBars.errorSnack('Image upload failed: ${e.toString()}', 'Error');
     } finally {
@@ -125,14 +139,34 @@ class EmployeeController extends GetxController{
 
 
   Future<void> loadEmployees()async{
-    try{
-      employees.value = [];
-      isLoading.value = true ;
-      employees.value = await repository.getEmployees();
-      isLoading.value = false ;
-    }catch(error){
-      throw "Something went Wrong ${error.toString()}";
+    try {
+      isLoading.value = true;
+
+      final data = await repository.getEmployees();
+
+      _allEmployees = data;
+      employees.value = data;
+
+    } catch (e) {
+      snackBars.errorSnack('Failed to load employees', 'Error');
+    } finally {
+      isLoading.value = false;
     }
+  }
+
+  void searchEmployees(String query) {
+    searchQuery.value = query;
+
+    if (query.trim().isEmpty) {
+      employees.value = _allEmployees;
+      return;
+    }
+
+    final lowerQuery = query.toLowerCase();
+
+    employees.value = _allEmployees.where((employee) {
+      return employee.fullName.toLowerCase().contains(lowerQuery);
+    }).toList();
   }
 
   Future<void> addEmployee(EmployeeModel employee) async {
@@ -148,6 +182,7 @@ class EmployeeController extends GetxController{
       }
 
       await repository.addEmployee(employee);
+      clearFields();
 
       Get.snackbar(
         padding: EdgeInsets.all(10),
@@ -186,8 +221,29 @@ class EmployeeController extends GetxController{
   Future<void> updateEmployee(EmployeeModel employee)async{
     try{
       await repository.updateEmployee(employee);
+      snackBars.successSnack('Employee Updated Successfully ','Success');
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
     }
+  }
+
+  Future<EmployeeModel> updateCurrentEmployee(EmployeeModel employee) async {
+    employee.fullName = name.text.trim();
+    employee.phoneNo = phoneNo.text.trim();
+    employee.address = address.text.trim();
+    employee.dateOfBirth = dateOfBirth.text.trim();
+    employee.jobTitle = jobTitle.text.trim();
+    employee.location = location.text.trim();
+    employee.startDate = dateOfCommencement.text.trim();
+    employee.graduationDate = graduationDate.text.trim();
+    employee.salary.housingAllowance = parseIntSafe(housingAllowance.text.trim());
+    employee.salary.transportAllowance = parseIntSafe(transportationAllowance.text.trim());
+    employee.salary.baseSalary = parseIntSafe(baseSalary.text.trim());
+    employee.vacation.annualDay = parseIntSafe(annualDays.text.trim());
+    employee.vacation.sickDay = parseIntSafe(sickDays.text.trim());
+    employee.vacation.casualDay = parseIntSafe(casualDays.text.trim());
+    employee.vacation.deductDay = parseIntSafe(deductDays.text.trim());
+    return employee ;
+
   }
 }

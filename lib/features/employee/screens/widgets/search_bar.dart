@@ -1,9 +1,11 @@
+import 'package:employee_data_management/features/employee/controllers/employee_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 class SearchField extends StatelessWidget {
   const SearchField({
-    super.key,
+    super.key, required this.controller,
   });
+  final EmployeeController controller ;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,8 @@ class SearchField extends StatelessWidget {
             color: Colors.grey.shade200,
           ),
           child: TextField(
-            onChanged: (value) {},
+            controller: controller.searchController,
+            onChanged: controller.searchEmployees,
             maxLines: 1,
             textAlign: TextAlign.right,
             decoration: InputDecoration(

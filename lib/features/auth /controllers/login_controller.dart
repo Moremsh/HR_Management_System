@@ -20,6 +20,8 @@ class LoginController extends GetxController{
       final res = await AuthRepository.instance.signInWithEmail(email.text, password.text);
 
       if(res.user != null){
+        email.text = '';
+        password.text = '';
         Get.offAll(()=> HomeScreen());
       }
     }catch(error){

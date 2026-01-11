@@ -3,10 +3,11 @@ import 'package:employee_data_management/features/employee/controllers/employee_
 import 'package:flutter/material.dart';
 class TextWithField extends StatelessWidget {
   const TextWithField({
-    super.key,required this.text, required this.controller, this.validator
+    super.key,required this.text, required this.controller, this.validator, required this.enabled
   });
   final TextEditingController controller ;
   final text ;
+  final bool enabled ;
   final validator ;
 
   @override
@@ -14,14 +15,7 @@ class TextWithField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '$text',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        SizedBox(height: 35,child: TextFormField(textAlignVertical: TextAlignVertical.center,controller: controller,validator: validator,)),
+        TextFormField(decoration: InputDecoration(labelText: text),enabled : enabled ,textAlignVertical: TextAlignVertical.center,controller: controller,validator: validator,),
       ],
     );
   }

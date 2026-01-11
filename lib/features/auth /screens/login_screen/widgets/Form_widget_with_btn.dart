@@ -42,12 +42,6 @@ class FormWidgetWithBtns extends StatelessWidget {
                 ),
               ),
               ),
-              Row(
-                children: [
-                  Checkbox(value: true, onChanged: (value) {}),
-                  Text("Remember Me" ,style: Theme.of(context).textTheme.labelSmall,),
-                ],
-              ),
             ],
           ),
         ),

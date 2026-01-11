@@ -3,11 +3,11 @@ import 'package:employee_data_management/features/employee/models/salary_model.d
 import 'package:employee_data_management/features/employee/models/vacation_model.dart';
 class EmployeeModel {
   final String? id ;
-  final String fullName , phoneNo , image ,address , jobTitle , location ;
-  final String dateOfBirth , startDate , graduationDate;
-  final SalaryModel salary ;
-  final VacationModel vacation ;
-  final MounthlyExcussesModel monthlyExcusses ;
+  String fullName , phoneNo , image ,address , jobTitle , location ;
+  String dateOfBirth , startDate , graduationDate;
+  SalaryModel salary ;
+  VacationModel vacation ;
+  MounthlyExcussesModel monthlyExcusses ;
 
 
   EmployeeModel({

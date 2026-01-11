@@ -109,7 +109,7 @@ class EmployeeRepository extends GetxController{
   Future<void> updateSingleValue(Map<String,dynamic> data,String id)async{
     try{
       final res = await client.from('employees').update(data).eq('id', id).select().maybeSingle();
-      print(res);
+      // print(res);
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
     }
@@ -118,6 +118,9 @@ class EmployeeRepository extends GetxController{
   Future<void> deleteEmployee(String id)async{
     try{
       await client.from('employees').delete().eq('id', id);
+      await Supabase.instance.client.storage
+          .from('employee_images')
+          .remove(['profiles/$id']);
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
     }

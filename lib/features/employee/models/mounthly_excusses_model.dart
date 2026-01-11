@@ -1,5 +1,5 @@
 class MounthlyExcussesModel {
-  final int lateDay , exitDay , errandDay ;
+  int lateDay , exitDay , errandDay ;
 
   MounthlyExcussesModel({
     required this.lateDay,

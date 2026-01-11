@@ -1,5 +1,5 @@
 class VacationModel {
-  final int annualDay , sickDay , casualDay, deductDay ;
+  int annualDay , sickDay , casualDay, deductDay ;
 
   VacationModel({
     required this.annualDay,

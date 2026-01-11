@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
+
 class KInputDecorationTheme {
   KInputDecorationTheme._();
 
   static InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
-    isDense: true,
-    contentPadding: EdgeInsets.symmetric(horizontal: 20),
     errorMaxLines: 3 ,
     prefixIconColor: Colors.grey ,
     suffixIconColor: Colors.grey ,
@@ -15,7 +14,7 @@ class KInputDecorationTheme {
     floatingLabelStyle: const TextStyle().copyWith(color: Colors.black.withValues(alpha: 0.8)),
     border: OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(14) ,
-      borderSide: BorderSide(color: Colors.grey.shade500  , width: 1 )
+      borderSide: BorderSide(color: Colors.grey  , width: 1 )
     ),
     enabledBorder: OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(14) ,

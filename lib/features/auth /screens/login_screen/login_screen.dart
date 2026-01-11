@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image(image: AssetImage('assets/logo.png')),
+                Image(image: AssetImage('assets/agr_logo.png'),width: 120,height: 120,fit: BoxFit.contain,),
                 const SizedBox(height: 26,),
                 Text("Login ,", style: TextStyle(fontSize: 32,fontWeight: FontWeight.w900),),
                 const SizedBox(height: 10,),
