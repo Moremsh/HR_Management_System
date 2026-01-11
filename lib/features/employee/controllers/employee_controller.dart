@@ -69,6 +69,7 @@ class EmployeeController extends GetxController{
 
 
   void clearFields() {
+    dataFormKey.currentState!.reset();
     name.clear();
     phoneNo.clear();
     address.clear();

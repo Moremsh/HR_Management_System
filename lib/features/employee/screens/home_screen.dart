@@ -134,7 +134,7 @@ class HomeScreen extends StatelessWidget {
                                                   .value!
                                                   .image !=
                                               ''
-                                          ? NetworkImage("${controller.currentEmployee.value!.image}?t=${DateTime.now().millisecondsSinceEpoch}",)
+                                          ? NetworkImage("${controller.currentEmployee.value!.image}?t=${DateTime.now().millisecond}",)
                                           : const AssetImage(
                                               'assets/default.jpeg',
                                             ),
@@ -145,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                                     width: 250,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        controller.currentEmployee.value!.image = "${controller.pickAndUploadEmployeeImage(controller.currentEmployee.value!.id,)}?t=${DateTime.now().millisecondsSinceEpoch}";
+                                        controller.currentEmployee.value!.image =  "${controller.pickAndUploadEmployeeImage(controller.currentEmployee.value!.id,)}?t=${DateTime.now().millisecondsSinceEpoch}";
                                       },
                                       child: Text('Upload Image'),
                                     ),

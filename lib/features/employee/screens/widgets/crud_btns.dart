@@ -143,7 +143,9 @@ class CrudButtons extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: IconButton(
-                  onPressed: () => controller.clearFields(),
+                  onPressed: (){
+                    controller.clearFields();
+                  },
                   icon: Icon(Iconsax.trash),
                   color: Colors.white.withOpacity(0.9),
                 ),
