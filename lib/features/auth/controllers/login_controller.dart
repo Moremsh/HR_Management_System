@@ -7,6 +7,7 @@ import '../../../core/utils/popups/snackbars.dart';
 import '../../employee/screens/home_screen.dart';
 
 class LoginController extends GetxController{
+  /// Instance of LoginController
   static LoginController get instance => Get.find();
 
   final SnackBars snackBars = SnackBars();
