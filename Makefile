@@ -34,7 +34,7 @@ run-linux: ## Run the app on Linux
 	flutter run -d linux
 
 run-chrome: ## Run the app on Chrome
-	flutter run -d chrome
+	powershell -NoProfile -Command "& { $paths = @('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'); $exe = $paths | Where-Object { Test-Path $_ } | Select-Object -First 1; if ($exe) { $env:CHROME_EXECUTABLE = $exe; flutter run -d chrome } else { Write-Host 'Chrome not found. Set CHROME_EXECUTABLE environment variable or install Chrome from https://www.google.com/chrome/'; exit 1 } }"
 
 build-android: build-apk build-aab ## Build all Android artifacts (APK & AAB)
 
