@@ -39,6 +39,9 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Create Config
+        run: |
+          cat > lib/core/config/app_config.dart << EOF
           class AppConfig {
             static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
             static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
@@ -71,6 +74,9 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Create Config
+        run: |
+          cat > lib/core/config/app_config.dart << EOF
           class AppConfig {
             static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
             static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
