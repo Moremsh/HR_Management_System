@@ -1,11 +1,11 @@
 import 'package:employee_data_management/core/config/app_config.dart';
 import 'package:employee_data_management/core/utils/theme/themes.dart';
-import 'package:employee_data_management/features/auth%20/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 import 'core/bindings/app_bindings.dart';
+import 'features/auth/screens/login_screen/login_screen.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();

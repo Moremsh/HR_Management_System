@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../features/auth /screens/login_screen/login_screen.dart';
+import '../../features/auth/screens/login_screen/login_screen.dart';
 
 class AuthRepository extends GetxController{
   static AuthRepository get instance => Get.find();
