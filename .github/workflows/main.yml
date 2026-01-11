@@ -39,10 +39,6 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Create AppConfig
-        run: |
-          mkdir -p lib/core/config
-          cat <<EOF > lib/core/config/app_config.dart
           class AppConfig {
             static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
             static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
@@ -75,10 +71,6 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Create AppConfig
-        run: |
-          mkdir -p lib/core/config
-          cat <<EOF > lib/core/config/app_config.dart
           class AppConfig {
             static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
             static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
@@ -110,17 +102,6 @@ jobs:
 
       - name: Enable Windows support
         run: flutter config --enable-windows-desktop
-
-      - name: Create AppConfig
-        shell: bash
-        run: |
-          mkdir -p lib/core/config
-          cat <<EOF > lib/core/config/app_config.dart
-          class AppConfig {
-            static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
-            static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
-          }
-          EOF
 
       - name: Get dependencies
         run: flutter pub get
