@@ -1,19 +1,12 @@
 import 'package:employee_data_management/core/common/widgets/horizontal_card.dart';
 import 'package:employee_data_management/core/utils/devices/device_utils.dart';
-import 'package:employee_data_management/core/utils/validators/validator.dart';
 import 'package:employee_data_management/data/repositories/auth_repository.dart';
 import 'package:employee_data_management/data/repositories/employee_repository.dart';
-import 'package:employee_data_management/features/employee/models/employee_model.dart';
-import 'package:employee_data_management/features/employee/models/mounthly_excusses_model.dart';
-import 'package:employee_data_management/features/employee/models/salary_model.dart';
-import 'package:employee_data_management/features/employee/models/vacation_model.dart';
 import 'package:employee_data_management/features/employee/screens/widgets/crud_btns.dart';
 import 'package:employee_data_management/features/employee/screens/widgets/search_bar.dart';
-import 'package:employee_data_management/features/employee/screens/widgets/text_with_field.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
-import '../../../core/common/widgets/dividor.dart';
 import '../controllers/employee_controller.dart';
 import 'widgets/FormWidget.dart';
 import 'widgets/rounded_image_with_btn.dart';
@@ -30,14 +23,14 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        actionsPadding: EdgeInsets.only(right: 10),
+        actionsPadding: const EdgeInsets.only(right: 10),
         actions: [
           IconButton(
             onPressed: () => AuthRepository.instance.signOut(),
-            icon: Icon(Iconsax.logout_14, color: Color(0XFFFDFFF0)),
+            icon: const Icon(Iconsax.logout_14, color: Color(0XFFFDFFF0)),
           ),
         ],
-        backgroundColor: Color(0XFF1C4D8D),
+        backgroundColor: const Color(0XFF1C4D8D),
         title: const Text(
           'AGR INTERNATIONAL',
           style: TextStyle(
@@ -141,13 +134,13 @@ class HomeScreen extends StatelessWidget {
                                       btnText: 'Upload Image',
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     width: 250,
                                     child: ElevatedButton(
                                       onPressed: () {
                                         controller.currentEmployee.value!.image =  "${controller.pickAndUploadEmployeeImage(controller.currentEmployee.value!.id,)}?t=${DateTime.now().millisecondsSinceEpoch}";
                                       },
-                                      child: Text('Upload Image'),
+                                      child: const Text('Upload Image'),
                                     ),
                                   ),
                                 ],
@@ -184,7 +177,7 @@ class HomeScreen extends StatelessWidget {
                                   controller.isEditing.value = false ;
                                   controller.enableFields.value = false ;
                                   controller.clearFields();
-                                }, child: Text("Confirm"))),
+                                }, child: const Text("Confirm"))),
                                     const SizedBox(width: 10,),
 
                                     /// Discard Button
@@ -194,7 +187,7 @@ class HomeScreen extends StatelessWidget {
                                       controller.isEditing.value = false ;
                                       controller.enableFields.value = false ;
                                     }
-                                   ,child: Text("Discard"))),
+                                   ,child: const Text("Discard"))),
                                   ],
                                 ),
                               ),
