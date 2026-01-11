@@ -172,7 +172,6 @@ class EmployeeController extends GetxController{
 
   Future<void> addEmployee(EmployeeModel employee) async {
     try {
-      print("this is inside Employee fullName : ${employee.fullName}");
       if (!dataFormKey.currentState!.validate()) return;
 
       final exists = await repository.employeeExists(employee.fullName);
@@ -185,17 +184,11 @@ class EmployeeController extends GetxController{
       await repository.addEmployee(employee);
       clearFields();
 
-      Get.snackbar(
-        padding: EdgeInsets.all(10),
-        'Success',
-        'Employee added successfully',
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
+      snackBars.successSnack('Employee Added Successfully ','Success');
 
       await loadEmployees();
     } catch (e) {
-
+      snackBars.errorSnack('Something went Wrong ${e.toString()}','Error');
     }
   }
 
@@ -224,7 +217,7 @@ class EmployeeController extends GetxController{
       await repository.updateEmployee(employee);
       snackBars.successSnack('Employee Updated Successfully ','Success');
     }catch(error){
-      throw "Something went Wrong ${error.toString()}";
+     snackBars.errorSnack('Something went Wrong ${error.toString()}','Error');
     }
   }
 

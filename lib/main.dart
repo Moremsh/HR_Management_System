@@ -9,9 +9,6 @@ import 'features/auth/screens/login_screen/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Must add this line for the window_manager plugin to work.
-  await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
     windowButtonVisibility: true,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:employee_data_management/core/utils/popups/snackbars.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -85,7 +86,6 @@ class EmployeeRepository extends GetxController{
         .select()
         .eq('fullName', fullName.trim())
         .maybeSingle();
-    print("this is res ${res.toString()}");
     return res != null ;
   }
 
@@ -109,7 +109,6 @@ class EmployeeRepository extends GetxController{
   Future<void> updateSingleValue(Map<String,dynamic> data,String id)async{
     try{
       final res = await client.from('employees').update(data).eq('id', id).select().maybeSingle();
-      // print(res);
     }catch(error){
       throw "Something went Wrong ${error.toString()}";
     }
