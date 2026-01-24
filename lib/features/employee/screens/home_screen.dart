@@ -13,6 +13,8 @@ import 'package:employee_data_management/features/employee/screens/widgets/text_
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+import 'package:path/path.dart';
 import '../../../core/common/widgets/dividor.dart';
 import '../controllers/employee_controller.dart';
 import 'widgets/FormWidget.dart';
@@ -27,6 +29,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logger = Logger();
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
@@ -176,10 +179,11 @@ class HomeScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
 
-                                    /// Discard Button
+                                    /// Confirm Button
                                     Expanded(child: ElevatedButton(
                                 onPressed: ()async{
                                   controller.updateCurrentEmployee(controller.currentEmployee.value!);
+                                  logger.d(controller.currentEmployee.value?.id);
                                   controller.updateEmployee(controller.currentEmployee.value!);
                                   controller.isEditing.value = false ;
                                   controller.enableFields.value = false ;

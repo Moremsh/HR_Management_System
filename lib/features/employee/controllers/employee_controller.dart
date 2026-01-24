@@ -94,7 +94,6 @@ class EmployeeController extends GetxController{
     searchEmployees('');
     enableFields.value = true ;
     isEditing.value = false ;
-    print("Current id is : ${currentEmployee.value!.id}");
   }
 
 
@@ -172,7 +171,6 @@ class EmployeeController extends GetxController{
 
   Future<void> addEmployee(EmployeeModel employee) async {
     try {
-      print("this is inside Employee fullName : ${employee.fullName}");
       if (!dataFormKey.currentState!.validate()) return;
 
       final exists = await repository.employeeExists(employee.fullName);
@@ -195,7 +193,7 @@ class EmployeeController extends GetxController{
 
       await loadEmployees();
     } catch (e) {
-
+      snackBars.errorSnack('Something went Wrong ${e.toString()}', 'Error');
     }
   }
 
@@ -244,6 +242,9 @@ class EmployeeController extends GetxController{
     employee.vacation.sickDay = parseIntSafe(sickDays.text.trim());
     employee.vacation.casualDay = parseIntSafe(casualDays.text.trim());
     employee.vacation.deductDay = parseIntSafe(deductDays.text.trim());
+    employee.monthlyExcusses.exitDay = parseIntSafe(exitDays.text.trim());
+    employee.monthlyExcusses.lateDay = parseIntSafe(lateDays.text.trim());
+    employee.monthlyExcusses.errandDay = parseIntSafe(errandDays.text.trim());
     return employee ;
 
   }
