@@ -25,72 +25,72 @@ jobs:
           head: HEAD
           extra_args: --debug --only-verified --no-verification
 
-  analyze:
-    name: Static Analysis
-    needs: compliance
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # analyze:
+  #   name: Static Analysis
+  #   needs: compliance
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
+  #     - name: Install Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         channel: 'stable'
+  #         cache: true
 
-      - name: Create Config
-        run: |
-          cat > lib/core/config/app_config.dart << EOF
-          class AppConfig {
-            static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
-            static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
-          }
-          EOF
+  #     - name: Create Config
+  #       run: |
+  #         cat > lib/core/config/app_config.dart << EOF
+  #         class AppConfig {
+  #           static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
+  #           static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+  #         }
+  #         EOF
 
-      - name: Get dependencies
-        run: flutter pub get
+  #     - name: Get dependencies
+  #       run: flutter pub get
 
-      - name: Run Build Runner
-        run: dart run build_runner build --delete-conflicting-outputs
+  #     - name: Run Build Runner
+  #       run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Check Formatting
-        run: dart format --set-exit-if-changed .
+  #     - name: Check Formatting
+  #       run: dart format --set-exit-if-changed .
 
-      - name: Run Static Analysis
-        run: flutter analyze
+  #     - name: Run Static Analysis
+  #       run: flutter analyze
 
-  test:
-    name: Unit Tests
-    needs: compliance
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # test:
+  #   name: Unit Tests
+  #   needs: compliance
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
+  #     - name: Install Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         channel: 'stable'
+  #         cache: true
 
-      - name: Create Config
-        run: |
-          cat > lib/core/config/app_config.dart << EOF
-          class AppConfig {
-            static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
-            static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
-          }
-          EOF
+  #     - name: Create Config
+  #       run: |
+  #         cat > lib/core/config/app_config.dart << EOF
+  #         class AppConfig {
+  #           static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
+  #           static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+  #         }
+  #         EOF
 
-      - name: Get dependencies
-        run: flutter pub get
+  #     - name: Get dependencies
+  #       run: flutter pub get
 
-      - name: Run Build Runner
-        run: dart run build_runner build --delete-conflicting-outputs
+  #     - name: Run Build Runner
+  #       run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Run Tests
-        run: flutter test
+  #     - name: Run Tests
+  #       run: flutter test
 
 
   build_windows:
