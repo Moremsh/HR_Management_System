@@ -95,6 +95,7 @@ jobs:
 
   build_windows:
     name: Build Windows
+    needs: [test]
     runs-on: windows-latest
     steps:
       - name: Checkout code
@@ -108,6 +109,15 @@ jobs:
 
       - name: Enable Windows support
         run: flutter config --enable-windows-desktop
+
+      - name: Create Config
+        run: |
+          cat > lib/core/config/app_config.dart << EOF
+          class AppConfig {
+            static const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
+            static const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+          }
+          EOF
 
       - name: Get dependencies
         run: flutter pub get
